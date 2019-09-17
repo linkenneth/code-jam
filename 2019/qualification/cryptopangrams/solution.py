@@ -2,6 +2,9 @@
 Completed after looking at analysis and being reminded that I can find GCD
 between ciphertext entries... But damn is this not a nutty off-by-one error
 calapalooza.
+
+Feedback for self: think of things as processing data from arrays to arrays.
+Combining elements in arrays to form a new "primes" array of length L + 1.
 '''
 
 def solve(cipher):
