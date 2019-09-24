@@ -12,41 +12,47 @@ def damage(P):
 
 def solve(D, P):
     '''
-    Greedy. Go from front to find last C in sequence of C's. Backtrack and
-    continue to swap C's from before. Continue forwards.
+    DP. Find # of S's >= this position for each position. Go through C's
+    from the back and reduce by multiplier count
     '''
-    print 'solve(D, P)', D, P
-    if P.count('S') > D:
-        return 'IMPOSSIBLE'
+    # print 'solve(D, P)', D, P
 
-    P = list(P)
+    hacks = 0
+    L = [-1] * len(P)
+    sCount = 0
+    lastCIndex = -1
+    multiplier = 1
+    for i in xrange(len(P) - 1, -1, -1):
+        if P[i] == 'S':
+            sCount += 1
+        L[i] = sCount
+
+        # find last C and its multiplier
+        if P[i] == 'C':
+            multiplier <<= 1
+            if lastCIndex == -1:
+                lastCIndex = i
 
     diff = damage(P) - D
-    hacks = 0
-    direction = 'forward'
-    multiplier = 1
-    i = 0
-    while diff > 0:
-        print 'i', i
+    i = lastCIndex
+    # print 'diff', diff
+    while i >= 0 and diff > 0:
+        # print 'i', i
         if P[i] == 'C':
-            # multiplier <<= 1
-            while i + 1 <= len(P) - 1 and P[i + 1] == 'C':
-                multiplier <<= 1
-                i += 1
-            if i + 1 >= len(P):
-                break
-            diff -= multiplier
-            P[i], P[i + 1] = P[i + 1], P[i]
-            print 'P', P
-            # diff >>= 1
-            # hacks += 1
-        elif P[i] == 'S':
-            diff -= 1
-
-        if direction is 'forward':
-            i += 1
+            if L[i] > 0:
+                diff -= multiplier / 2
+                L[i] -= 1
+                hacks += 1
+                # print 'hack @', i, diff, L[i]
+            else:
+                multiplier >>= 1
+                # print 'multiplier decrease', multiplier
+                i -= 1
         else:
             i -= 1
+
+    if diff > 0:
+        return 'IMPOSSIBLE'
     return hacks
 
 T = int(raw_input())
