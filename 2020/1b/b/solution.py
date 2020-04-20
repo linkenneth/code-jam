@@ -3,7 +3,8 @@ ideas:
 - constraints: build a list of radial / circular constraints.
 continually select points which reduces the possible area by half
 - issues: how to calculate possible areas? how to determine
-dart points to throw at?
+dart points to throw at? what if you don't have single contiguous
+area to easily calculate a point by which to reduce search space?
 - optimizations: select the 4 quarter-points on axis in very
 first round of darts to quickly determine hemisphere
 '''
